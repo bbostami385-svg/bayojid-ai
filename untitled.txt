@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bayojid AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{ font-family: Arial; background:#0f172a; color:white; display:flex; justify-content:center; align-items:center; height:100vh; }
+.chatbox{ width:100%; max-width:400px; background:#020617; border-radius:10px; padding:15px; }
+h2{text-align:center;color:#38bdf8;}
+#chat{height:300px;overflow-y:auto;font-size:14px;}
+.user{color:#22c55e;margin:5px 0;}
+.bot{color:#e5e7eb;margin:5px 0;}
+input{ width:75%; padding:8px; border-radius:5px; border:none; }
+button{ width:23%; padding:8px; border:none; background:#38bdf8; border-radius:5px; }
+</style>
+</head>
+<body>
+<div class="chatbox">
+<h2>🤖 Bayojid AI</h2>
+<div id="chat">
+<div class="bot">Hello! আমি Bayojid AI 😊<br>Ask me in Bangla or English.</div>
+</div>
+<br>
+<input id="msg" placeholder="Type message...">
+<button onclick="send()">Send</button>
+</div>
+<script>
+function send(){
+let msg = document.getElementById("msg").value;
+if(msg=="") return;
+let chat = document.getElementById("chat");
+chat.innerHTML += `<div class='user'>You: ${msg}</div>`;
+document.getElementById("msg").value="";
+setTimeout(()=>{
+chat.innerHTML += `<div class='bot'>Bayojid AI: Thinking...</div>`;
+chat.scrollTop = chat.scrollHeight;
+},500);
+}
+</script>
+</body>
+</html>
