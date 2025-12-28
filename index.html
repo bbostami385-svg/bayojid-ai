@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayojid AI</title>
+<style>
+  body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+  #chat { max-width: 600px; margin: auto; background: #fff; padding: 15px; border-radius: 10px; height: 400px; overflow-y: auto; }
+  .message { padding: 10px; margin: 5px 0; border-radius: 5px; }
+  .user { background: #d1e7dd; text-align: right; }
+  .ai { background: #f8d7da; text-align: left; }
+  #inputBox { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+
+<h2>Bayojid AI (Bangla + English)</h2>
+<div id="chat"></div>
+<input type="text" id="inputBox" placeholder="আপনার প্রশ্ন লিখুন..." />
+
+<script>
+const chatDiv = document.getElementById("chat");
+const inputBox = document.getElementById("inputBox");
+
+// Chat message দেখানোর ফাংশন
+function addMessage(text, sender) {
+  const msgDiv = document.createElement("div");
+  msgDiv.classList.add("message");
+  msgDiv.classList.add(sender);
+  msgDiv.innerText = text;
+  chatDiv.appendChild(msgDiv);
+  chatDiv.scrollTop = chatDiv.scrollHeight;
+}
+
+// Enter চাপলে মেসেজ পাঠানো
+inputBox.addEventListener("keypress", async function(e) {
+  if(e.key === "Enter" && inputBox.value.trim() !== "") {
+    const userMessage = inputBox.value;
+    addMessage(userMessage, "user");
+    inputBox.value = "";
+
+    addMessage("Thinking...", "ai");
+
+    try {
+      const res = await fetch("https://bayojid-ai-backend.onrender.com/chat", { // এখানে তোমার Backend URL
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMessage })
+      });
+
+      const data = await res.json();
+      chatDiv.lastChild.innerText = data.reply;
+    } catch(err) {
+      chatDiv.lastChild.innerText = "Error: সার্ভার বা নেটওয়ার্ক সমস্যা।";
+    }
+  }
+});
+</script>
+
+</body>
+</html>
